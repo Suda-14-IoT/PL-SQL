@@ -1,0 +1,79 @@
+//1-4
+select * from HR.Employees where hr.employees.department_id = 100;
+select HR.Employees.FIRST_NAME || HR.Employees.LAST_NAME, department_id, employee_id from HR.Employees where job_id = 'SA_MAN';
+select salary, salary*commission_pct, (salary + salary*commission_pct)  from HR.EMPLOYEES;
+select * from HR.employees where (job_id = 'AD_ASST' and department_id = 40) or (job_id = 'SA_REP' and department_id = 20);
+
+select * from HR.Employees where Hr.Employees.Salary > 2000 and HR.Employees.JOB_ID not in (select job_id from HR.Jobs where job_title='Stock Manager' or job_title='Purchasing Manager');
+
+
+select distinct j.job_title, j.job_id from HR.employees  e, HR.Jobs  j where j.job_id = e.job_id and e.commission_pct is not null;
+
+select * from HR.Employees where (Hr.Employees.Commission_Pct*Hr.Employees.Salary) is null or  (Hr.Employees.Commission_Pct*Hr.Employees.Salary) <100;
+//8
+select * from hr.employees where first_name not like '%S%';
+
+
+select First_name||Last_name,hire_date from Hr.Employees order by hr.employees.hire_date;
+
+//10 
+select e1.first_name || e1.last_name, e2.first_name || e2.last_name from hr.employees  e1, hr.employees  e2 where e1.manager_id = e2.employee_id;
+select * from Hr.Employees em where em.hire_date < (select hire_date from Hr.Employees em2 where em.manager_id=em2.employee_id);
+//12
+select d.department_id, d.department_name, l.street_address, e.first_name || e.last_name from hr.employees e, hr.locations l, hr.departments d where d.manager_id = e.employee_id and d.location_id = l.location_id
+
+//13
+select * from Hr.Employees em  right join Hr.Departments de on(em.department_id=de.department_id);
+//14
+select e.*, d.* 
+from hr.employees e
+LEFT JOIN hr.departments d on d.department_id = e.department_id;
+//15
+select em.employee_id,em.first_name||em.last_name,de.department_name,jo.job_title from Hr.Employees em ,Hr.Departments de,Hr.Jobs jo where(em.department_id=de.department_id and em.job_id =jo.job_id);
+//16
+select d.department_id 
+from hr.departments d, hr.employees e
+where d.department_id = e.department_id
+group by e.department_id
+having count(*) > 0;
+//17
+select * from Hr.Employees em where em.salary > (select salary from Hr.Employees em2 where em2.employee_id=100);
+//18
+select * 
+from hr.employees
+where salary > (
+select avg(salary)
+from hr.employees);
+//19
+select max(salary),em.job_id,em.department_id from Hr.Employees em group by (em.job_id,em.department_id);
+
+//20
+select count(*),avg(salary) from HR.Employees group by (HR.Employees.DEPARTMENT_ID);
+//21
+select count(*),avg(salary) from HR.Employees group by (HR.Employees.JOB_ID);
+//22
+select count(*), avg(e.salary)
+from hr.employees e
+group by e.department_id, e.job_id;
+//23
+select * from Hr.Jobs jo where jo.min_salary > 5000;
+
+
+
+
+select First_name||Last_name,hire_date from Hr.Employees order by hr.employees.hire_date;
+//11
+select * from Hr.Employees em where em.hire_date < (select hire_date from Hr.Employees em2 where em.manager_id=em2.employee_id);
+//13
+select * from Hr.Employees em  right join Hr.Departments de on(em.department_id=de.department_id);
+//15
+select em.employee_id,em.first_name||em.last_name,de.department_name,jo.job_title from Hr.Employees em ,Hr.Departments de,Hr.Jobs jo where(em.department_id=de.department_id and em.job_id =jo.job_id);
+
+//19
+select max(salary),em.job_id,em.department_id from Hr.Employees em group by (em.job_id,em.department_id);
+//20
+select count(*),avg(salary) from HR.Employees group by (HR.Employees.DEPARTMENT_ID);
+//21
+select count(*),avg(salary) from HR.Employees group by (HR.Employees.JOB_ID);
+//23
+select * from Hr.Jobs jo where jo.min_salary > 5000;
