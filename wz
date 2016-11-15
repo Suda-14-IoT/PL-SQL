@@ -1,0 +1,21 @@
+
+--44
+
+select INITCAP(first_name) ,INITCAP(last_name) from HR.EMPLOYEES
+
+--45
+select* from HR.EMPLOYEES
+where length(first_name) =6
+
+--46
+select* from HR.EMPLOYEES
+where substr(first_name,2,1) = 'M'
+
+--47
+select replace(first_name,'s','S') from HR.EMPLOYEES
+
+
+
+--48
+select * from HR.EMPLOYEES
+where TO_NUMBER(to_char(hire_date,'MM')) > 2
