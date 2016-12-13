@@ -1,0 +1,86 @@
+-- 1
+CREATE or Replace procedure pro_showsal(
+    p_empno HR.employees.employee_id%type)
+as
+    v_sal HR.employees.salary%type;
+BEGIN
+  select salary into v_sal 
+  from HR.employees
+  where employee_id = p_empno;
+  dbms_output.put_line(v_sal);
+
+EXCEPTION
+  WHEN no_data_found THEN
+    dbms_output.put_line('There is not such an employee');
+END;
+
+BEGIN
+    pro_showsal(100);
+END;
+
+-- 2
+CREATE or Replace procedure pro_updatesal(
+    p_empno HR.employees.employee_id%type)
+as
+    v_deptno HR.employees.department_id%type;
+    v_inc number;
+BEGIN
+  select department_id into v_deptno
+  from HR.employees
+  where employee_id = p_empno;
+  case v_deptno
+  when 10 then v_inc:=140;
+  when 20 then v_inc:=200;
+  when 30 then v_inc:=250
+else v_inc:=300;
+END case;
+
+update HR.employees set salary=salary+v_inc
+where employee_id=p_empno;
+
+EXCEPTION
+   WHEN no_data_found THEN
+    dbms_output.put_line('There is not such an employee');
+END;
+
+-- 3
+CREATE or Replace function func_retsal(
+    p_empno HR.employees.employee_id%type)
+    return HR.employees.salary%type
+as 
+    v_sal employees.salary%type;
+BEGIN
+  select salary into v_sal from employees
+  where employee_id=p_empno;
+  return v_sal
+
+EXCEPTION
+  WHEN no_data_found THEN
+    dbms_output.put_line("There is no such an employee");
+END;
+
+-- 4
+CREATE or Replace function func_avage(
+    p_empno HR.employees.employee_id%type)
+    return HR.employees.salary%type
+as
+    v_deptno HR.employees.department_id%type;
+    v_avg HR.employees.salary%type;
+BEGIN
+  select department_id into v_deptno
+  from HR.employees
+  where employee_id = p_empno;
+  select avg(salary) into v_sal 
+  from HR.employees
+  where department_id = v_deptno;
+
+EXCEPTION
+  WHEN no_data_found THEN
+    dbms_output.put_line("There is no such an employee");
+END;
+
+
+-- 5
+CREATE or Replace package pkg_emp
+    as
+function func_ret_maxsal
